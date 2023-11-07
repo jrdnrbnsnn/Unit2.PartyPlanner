@@ -42,7 +42,7 @@ function renderEvents() {
         <p>${event.description}</p>
         <p>${event.date}</p>
         <p>${event.location}</p>
-        <button id="${event.id}"> Delete Party</button>
+        <button data-id="${event.id}"> Delete Party</button>
       `;
     return li;
   });
@@ -77,3 +77,17 @@ async function addEvent(event) {
     console.error(error);
   }
 }
+
+async function deleteEvent(id) {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
+  render();
+}
+
+eventList.addEventListener("click", (e) => {
+  if (e.target.matches("button")) {
+    const id = e.target.dataset.id;
+    deleteEvent(id);
+  }
+});
