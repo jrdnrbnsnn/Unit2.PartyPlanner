@@ -42,6 +42,7 @@ function renderEvents() {
         <p>${event.description}</p>
         <p>${event.date}</p>
         <p>${event.location}</p>
+        <button id="${event.id}"> Delete Party</button>
       `;
     return li;
   });
@@ -59,10 +60,13 @@ async function addEvent(event) {
       body: JSON.stringify({
         name: addEventForm.name.value,
         description: addEventForm.description.value,
-        date: addEventForm.date.value,
+        date: new Date(addEventForm.date.value).toISOString(),
         location: addEventForm.location.value,
       }),
     });
+
+    const json = await response.json();
+    console.log(json);
 
     if (!response.ok) {
       throw new Error("Failed to create event");
